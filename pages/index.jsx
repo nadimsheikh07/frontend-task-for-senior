@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 
 export default function Home() {
   const router = useRouter()
-  const [incidents, setIncidents] = useState([])
+  const [incidents, setIncidents] = useState(false)
   const [query, setQuery] = useState('')
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
@@ -111,9 +111,9 @@ export default function Home() {
         </Row>
       </Form>
 
-      {incidents && incidents.length !== 0 && <BootstrapTable keyField='id' data={incidents} columns={columns} pagination={paginationFactory(options)} />}
+      {incidents && <BootstrapTable keyField='id' data={incidents} columns={columns} pagination={paginationFactory(options)} />}
 
-      {incidents && incidents.length === 0 && <Spinner animation="border" role="status">
+      {!incidents && <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
       </Spinner>}
 
