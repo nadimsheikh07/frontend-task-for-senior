@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Jumbotron, Spinner, Row, Col, Form, Button, Image } from "react-bootstrap";
+import { Container, Spinner, Row, Col, Form, Button, Image } from "react-bootstrap";
 import '../style.scss'
 import { crudService } from "../_services"
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -8,9 +8,11 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Header from '../components/header'
+import { useRouter } from 'next/router'
 
 export default function Home() {
-
+  const router = useRouter()
   const [incidents, setIncidents] = useState([])
   const [query, setQuery] = useState('')
   const [from, setFrom] = useState('')
@@ -34,6 +36,10 @@ export default function Home() {
     })
   }
 
+  const showDetail = (id) => {
+    router.push(`/detail/${id}`)
+  }
+
   const columns = [
     {
       dataField: 'title',
@@ -46,7 +52,7 @@ export default function Home() {
                 {row.media.image_url_thumb && <Image src={row.media.image_url_thumb} width={150} alt={row.title} rounded />}
               </Col>
               <Col lg="10">
-                <a href={row.url} target="_blank">{row.title}</a>
+                <a href="#" onClick={() => showDetail(row.id)}>{row.title}</a>
                 <p>{row.description}</p>
                 <p>{row.address}</p></Col>
             </Row>
@@ -78,10 +84,7 @@ export default function Home() {
 
   return (
     <Container>
-      <Jumbotron>
-        <h1>Police Department of berlin</h1>
-        <p>Stolen bykes</p>
-      </Jumbotron>
+      <Header />
 
       <Form onSubmit={onSearch}>
         <Row>
